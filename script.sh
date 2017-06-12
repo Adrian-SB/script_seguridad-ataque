@@ -8,23 +8,34 @@
 echo "Dime la clave"
 read clave
 
-long=${#clave}
+declare -i long=${#clave} 
+ 
+declare -i min=4
 
 num=[0-9]
 
 
-if [[ $long > 4 ]]
-then
-  	if  [[ $clave == *$num[a-zA-Z]* ]] || [[ $clave == *[a-zA-Z]$num* ]]
+	if [[ $clave =~ [A-Z]  ]]
 	then
-  		echo "Contraseña contiene números y letras en mayusculas y minusculas"
-	elif  [[ $clave == [a-zA-Z]{6} ]]
+		echo "Tiene mayusculas"
+	fi
+
+  	if  [[ $clave =~ $num[a-zA-Z]|[a-zA-Z]$num ]]
 	then
-  		echo "Contraseña contiene solamente letras "
-  	elif [[ $clave == $num{6} ]]
+  		echo "Contraseña contiene números y letras"
+
+	elif  [[ $clave != *$num* ]]
+	then
+  		echo "Contraseña contiene solamente letras"
+
+  	elif [[ $clave != *[a-zA-Z]* ]]
   	then
   		echo "Contraseña contiene solamente números"
 	fi
-else 
-	echo $long
-fi
+
+	if [[ $long > $min ]]
+	then
+		echo "bien", $long
+	else 
+		echo $long,"corta"
+	fi
